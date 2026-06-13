@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AudioScript Contextual: Transcripción inmersiva potenciada por IA para análisis cualitativo.">
+    <title>AudioScript Contextual</title>
+    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="header" style="padding: 0; position: relative; background: #001F3F;">
+            <div class="logo" style="width: 100%; display: block;">
+                <img src="Logo_AudioScript_C.png" alt="Logo AudioScript Contextual"
+                    style="width: 100%; height: auto; display: block;">
+            </div>
+            <div class="header-actions"
+                style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; background: rgba(0, 31, 63, 0.75); padding: 6px 20px; display: flex; align-items: center; justify-content: flex-end; gap: 8px;">
+                <div
+                    style="flex: 1; font-size: 13px; color: rgba(255,255,255,0.8); font-style: italic; letter-spacing: 0.5px;">
+                    Transcripción inmersiva potenciada por IA
+                </div>
+                <div class="toggle-container">
+                    <i class="fas fa-sun" style="color: #DAA520;"></i>
+                    <label class="toggle-switch" title="Cambiar entre modo claro y oscuro">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <i class="fas fa-moon" style="color: #aaa;"></i>
+                </div>
+                <button class="icon-btn" id="shortcuts-btn"
+                    title="Atajos de teclado — Muestra todos los atajos disponibles para trabajar más rápido">
+                    <i class="fas fa-keyboard"></i>
+                </button>
+                <button class="icon-btn" id="help-btn"
+                    title="Guía Básica — Aprende a usar AudioScript Contextual paso a paso">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button class="icon-btn" id="settings-btn"
+                    title="Configuración — Ajusta rutas de almacenamiento y prioridad de procesamiento">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Gestión de proyectos</h2>
+                        <button class="btn-action" id="btn-new-project"
+                            title="Crear un nuevo proyecto de investigación (Demo: muestra alerta simulada)">
+                            <i class="fas fa-plus-circle"></i> Nuevo
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="project-list" id="project-list">
+                            <div class="project-card selected" data-id="projX" data-name="Entrevistas Grupo Focal">
+                                <div class="project-title">
+                                    <i class="fas fa-folder"></i>
+                                    Entrevistas Grupo Focal
+                                </div>
+                                <div class="project-desc">
+                                    Análisis de percepciones sobre producto X.
+                                </div>
+                            </div>
+                            <div class="project-card" data-id="proj2" data-name="Investigación Etnográfica">
+                                <div class="project-title">
+                                    <i class="fas fa-folder"></i>
+                                    Investigación Etnográfica
+                                </div>
+                                <div class="project-desc">
+                                    Observaciones participantes en comunidad Y.
+                                </div>
+                            </div>
+                            <div class="project-card" data-id="proj3" data-name="Tesis Doctoral">
+                                <div class="project-title">
+                                    <i class="fas fa-folder"></i>
+                                    Tesis Doctoral
+                                </div>
+                                <div class="project-desc">
+                                    Capítulo 3: Metodología y Resultados.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Carga de audio</h2>
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="upload-zone" id="drop-zone"
+                            title="Arrastra un archivo de audio aquí o haz clic para seleccionarlo">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Arrastra y suelta tu archivo aquí</p>
+                            <button class="btn-primary" id="btn-select-file"
+                                title="Abre el explorador de archivos para seleccionar un audio">Seleccionar
+                                Archivo</button>
+                            <input type="file" id="audio-file" accept="audio/*" class="hidden-input">
+                            <p id="file-name" class="small-text">Formatos: MP3, WAV, M4A, FLAC (máx. 500MB)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Configuración rápida</h2>
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="text-center">
+                            <p><strong>Modo de conexión</strong></p>
+                            <div class="dial" data-variable="connection" id="connection-dial">
+                                <div class="dial-inner">
+                                    <i class="fas fa-wifi"></i>
+                                </div>
+                                <div class="dial-marker-container">
+                                    <div class="dial-marker"></div>
+                                </div>
+                                <div class="dial-labels-wrapper"></div>
+                            </div>
+                            <p class="dial-value" id="connection-dial-value">Online</p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p><strong>Motor de transcripción</strong></p>
+                            <div class="dial" data-variable="engine" id="engine-dial">
+                                <div class="dial-inner">
+                                    <i class="fas fa-microphone-alt"></i>
+                                </div>
+                                <div class="dial-marker-container">
+                                    <div class="dial-marker"></div>
+                                </div>
+                                <div class="dial-labels-wrapper"></div>
+                            </div>
+                            <p class="dial-value" id="engine-dial-value">Whisper</p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p><strong>Modo transcripción</strong></p>
+                            <div class="dial" data-variable="mode" id="mode-dial">
+                                <div class="dial-inner">
+                                    <i class="fas fa-sliders-h"></i>
+                                </div>
+                                <div class="dial-marker-container">
+                                    <div class="dial-marker"></div>
+                                </div>
+                                <div class="dial-labels-wrapper"></div>
+                            </div>
+                            <p class="dial-value" id="mode-dial-value">Por tiempo</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section" id="mode-details-section">
+                    <div class="section-header">
+                        <h2>Detalles del modo</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-btn active" data-tab="time-tab-content">Tiempo</button>
+                                <button class="tab-btn" data-tab="lines-tab-content">Líneas</button>
+                                <button class="tab-btn" data-tab="manual-tab-content">Manual / Completo</button>
+                            </div>
+
+                            <div id="time-tab-content" class="tab-content active">
+                                <div class="config-row">
+                                    <span>Minutos transcripción:</span>
+                                    <div class="config-control">
+                                        <button class="config-btn" id="time-minutes-minus"><i
+                                                class="fas fa-minus"></i></button>
+                                        <input type="number" class="config-input" id="time-minutes-input" value="0"
+                                            min="0" max="60">
+                                        <button class="config-btn" id="time-minutes-plus"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="config-row">
+                                    <span>Segundos transcripción:</span>
+                                    <div class="config-control">
+                                        <button class="config-btn" id="time-seconds-minus"><i
+                                                class="fas fa-minus"></i></button>
+                                        <input type="number" class="config-input" id="time-seconds-input" value="30"
+                                            min="0" max="300" step="1">
+                                        <button class="config-btn" id="time-seconds-plus"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <p class="config-note">Transcribe hasta el tiempo total especificado (minutos +
+                                    segundos).</p>
+                            </div>
+
+                            <div id="lines-tab-content" class="tab-content">
+                                <div class="config-row">
+                                    <span>Líneas a transcribir:</span>
+                                    <div class="config-control">
+                                        <button class="config-btn" id="lines-count-minus"><i
+                                                class="fas fa-minus"></i></button>
+                                        <input type="number" class="config-input" id="lines-count-input" value="5"
+                                            min="1" max="100" step="1">
+                                        <button class="config-btn" id="lines-count-plus"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="config-row">
+                                    <span>Identificar hablantes:</span>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="speaker-id" value="auto" checked> Auto</label>
+                                        <label><input type="radio" name="speaker-id" value="manual"> Manual</label>
+                                    </div>
+                                </div>
+                                <p class="config-note">Transcribe el número de líneas especificadas.</p>
+                            </div>
+
+                            <div id="manual-tab-content" class="tab-content">
+                                <p class="config-note">"Completo" transcribe todo el audio. "Manual" permite control
+                                    granular (funcionalidad no implementada en este demo).</p>
+                                <div class="btn-row">
+                                    <button class="btn-success" id="manual-start-btn"
+                                        title="Funcionalidad no implementada"><i class="fas fa-play"></i> Iniciar
+                                        Bloque</button>
+                                    <button class="btn-danger" id="manual-stop-btn"
+                                        title="Funcionalidad no implementada"><i class="fas fa-stop"></i> Detener
+                                        Bloque</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Exportar</h2>
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="section-content">
+                        <div class="export-row">
+                            <select class="form-select" id="export-format" title="Selecciona el formato de exportación">
+                                <option>CSV (.csv)</option>
+                                <option>ATLAS.ti (.atlproj)</option>
+                                <option>NVivo (.nvp)</option>
+                                <option>QDPX (.qdpx)</option>
+                            </select>
+                            <button class="btn-primary" id="btn-export"
+                                title="Exportar la transcripción actual en el formato seleccionado (Demo)">
+                                <i class="fas fa-download"></i> Exportar
+                            </button>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="export-only-transcription">
+                                <span>Solo transcripción</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked id="export-timestamps">
+                                <span>Marcas de tiempo</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked id="export-speakers">
+                                <span>Hablantes</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" checked id="export-non-verbals">
+                                <span>No verbales</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="export-memos">
+                                <span>Memos</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="export-codes">
+                                <span>Códigos</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center-panel">
+                <div class="panel-section">
+                    <div class="audio-player">
+                        <div class="player-controls">
+                            <button class="player-btn" id="play-btn" title="Reproducir/Pausar">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="player-btn" id="backward-btn" title="Retroceder 5s">
+                                <i class="fas fa-backward"></i>
+                            </button>
+                            <button class="player-btn" id="forward-btn" title="Avanzar 5s">
+                                <i class="fas fa-forward"></i>
+                            </button>
+                        </div>
+                        <span class="time-display" id="current-time">0:00</span>
+                        <div class="timeline">
+                            <div class="timeline-progress"></div>
+                            <div class="timeline-handle"></div>
+                        </div>
+                        <span class="time-display" id="duration">0:00</span>
+                        <div class="volume-control">
+                            <button class="player-btn" id="mute-btn" title="Silenciar">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <input type="range" min="0" max="1" step="0.01" value="1" class="volume-slider"
+                                id="volume-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section" id="transcription-panel">
+                    <div class="section-header">
+                        <h2 id="transcription-panel-title">Transcripción</h2>
+                        <div class="header-actions transcription-actions">
+                            <button class="btn-primary" id="btn-new-transcription-in-project" style="display:none;"
+                                title="Crear nueva transcripción dentro del proyecto actual"> <i
+                                    class="fas fa-plus"></i> Nueva Transcripción
+                            </button>
+                            <button class="btn-primary" id="btn-new-transcription"
+                                title="Crear una nueva transcripción general vacía">
+                                <i class="fas fa-file-alt"></i> Nueva (General)
+                            </button>
+                            <button class="btn-success" id="btn-start-transcription"
+                                title="Iniciar la transcripción automática con Whisper (requiere archivo cargado)">
+                                <i class="fas fa-play-circle"></i> Iniciar
+                            </button>
+                            <button class="btn-secondary" id="btn-save-transcription"
+                                title="Guardar la transcripción actual en un proyecto">
+                                <i class="fas fa-save"></i> Grabar
+                            </button>
+                            <div class="toggle-container"
+                                title="Activar/desactivar la detección de elementos no verbales (pausas, risas, etc.)">
+                                <i class="fas fa-assistive-listening-systems"></i>
+                                <label class="toggle-switch small">
+                                    <input type="checkbox" id="nonverbal-toggle" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-container" id="transcription-search-container">
+                        <input type="text" class="search-input" placeholder="Buscar en transcripción...">
+                        <input type="text" class="search-input" placeholder="Reemplazar con...">
+                        <button class="search-btn" id="search-btn"
+                            title="Buscar la siguiente coincidencia en la transcripción">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="search-btn purple" id="replace-btn" title="Reemplazar la coincidencia actual">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="search-btn purple-dark" id="replace-all-btn"
+                            title="Reemplazar todas las coincidencias">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="search-btn gray" id="clear-search-btn" title="Limpiar búsqueda y cerrar">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div id="transcription-content-area" tabindex="0">
+                        <div class="transcription-editor" id="transcription-output" contenteditable="true">
+                            <div class="list-header" style="clear: both; margin-top: 10px;">Transcripción activa —
+                                Entrevista Prof. García</div>
+                            <div class="transcription-line" data-time="00:00" data-end="00:05">
+                                <span class="timestamp">[00:00 - 00:05]</span> <span
+                                    class="speaker">Entrevistador:</span> Bien, entonces, ¿podría hablarnos sobre su
+                                experiencia con la nueva metodología?
+                            </div>
+                            <div class="transcription-line" data-time="00:05" data-end="00:12">
+                                <span class="timestamp">[00:05 - 00:12]</span> <span
+                                    class="speaker">Entrevistado:</span> Mmm... sí. <span class="non-verbal">(Pausa
+                                    larga - 3s)</span> Eh, al principio fue... un poco complicado. <span
+                                    class="non-verbal">(Se ríe ligeramente)</span> No estábamos seguros.
+                            </div>
+                            <div class="transcription-line" data-time="00:13" data-end="00:18">
+                                <span class="timestamp">[00:13 - 00:18]</span> <span
+                                    class="speaker">Entrevistador:</span> ¿Complicado en qué sentido exactamente?
+                            </div>
+                            <div class="transcription-line" data-time="00:18" data-end="00:25">
+                                <span class="timestamp">[00:18 - 00:25]</span> <span
+                                    class="speaker">Entrevistado:</span> <span class="non-verbal">(Voz
+                                    temblorosa)</span> Bueno, la curva de aprendizaje fue... empinada. Muy empinada.
+                                <span class="non-verbal">(Suspiro)</span> Pero luego mejoró.
+                            </div>
+                            <div class="transcription-line" data-time="00:26" data-end="00:35">
+                                <span class="timestamp">[00:26 - 00:35]</span> <span
+                                    class="speaker">Entrevistador:</span> ¿Y qué aspectos mejoraron primero? ¿Fue la
+                                interfaz, la comprensión del flujo de trabajo, o algo más?
+                            </div>
+                            <div class="transcription-line" data-time="00:35" data-end="00:48">
+                                <span class="timestamp">[00:35 - 00:48]</span> <span
+                                    class="speaker">Entrevistado:</span> Mira, creo que lo primero fue entender que no
+                                se trata de reemplazar el análisis humano, sino de <span class="non-verbal">(golpea la
+                                    mesa suavemente)</span> potenciarlo. Cuando entiendes eso, todo cambia.
+                            </div>
+                            <div class="transcription-line" data-time="00:48" data-end="00:55">
+                                <span class="timestamp">[00:48 - 00:55]</span> <span
+                                    class="speaker">Entrevistador:</span> Interesante. ¿Podría dar un ejemplo concreto
+                                de cómo "potenció" su trabajo?
+                            </div>
+                            <div class="transcription-line" data-time="00:55" data-end="01:10">
+                                <span class="timestamp">[00:55 - 01:10]</span> <span
+                                    class="speaker">Entrevistado:</span> <span class="non-verbal">(Pausa reflexiva -
+                                    2s)</span> Sí. Por ejemplo, las categorías emergentes. Antes tardaba semanas en
+                                identificar patrones. Ahora, con la codificación asistida, puedo ver las tendencias
+                                mucho más rápido y dedicar ese tiempo a la interpretación profunda.
+                            </div>
+                        </div>
+                    </div>
+                    <p id="transcription-filter-info" class="small-text text-muted"
+                        style="margin-top: 5px; text-align: center;"></p>
+
+                    <div class="intervals-control" id="transcription-intervals-control">
+                        <h3>Control de intervalos</h3>
+                        <div class="interval-timeline">
+                            <div class="timeline-progress"></div>
+                            <div class="timeline-handle"></div>
+                        </div>
+                        <div class="time-display-row">
+                            <span class="time-display">0:00</span>
+                            <span class="time-display">0:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Panel de análisis automatizado</h2>
+                        <button class="btn-action" id="btn-generate-summary">
+                            <i class="fas fa-magic"></i> Generar resumen
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="api-config text-center"
+                            style="margin-bottom: 15px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px;">
+                            <p class="small-text" style="margin-bottom: 8px;">Conecta una API para activar la
+                                inteligencia artificial de análisis</p>
+                            <div style="display:flex; gap: 8px; justify-content:center; align-items:center;">
+                                <input type="password" id="api-key-qualitative" class="form-input"
+                                    placeholder="OpenAI/Cohere API Key" style="width: 200px;">
+                                <button class="btn-secondary" id="run-qualitative-btn"><i class="fas fa-brain"></i>
+                                    Correr Análisis</button>
+                            </div>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label"><i class="fas fa-tags"></i> Palabras clave:</span>
+                            <span class="analysis-value" id="analysis-keywords">Experiencia, Herramientas, Análisis,
+                                Contexto</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label"><i class="fas fa-smile"></i> Sentimiento:</span>
+                            <span class="analysis-value positive" id="analysis-sentiment">Positivo (75%)</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label"><i class="fas fa-comments"></i> Temas:</span>
+                            <span class="analysis-value" id="analysis-themes">Usabilidad, Valor del análisis</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label"><i class="fas fa-exclamation-triangle"></i> Puntos de
+                                fricción:</span>
+                            <span class="analysis-value" id="analysis-friction">Curva de aprendizaje inicial (1
+                                vez)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Análisis cuantitativo básico</h2>
+                        <button class="btn-action" id="btn-recalculate-stats">
+                            <i class="fas fa-sync-alt"></i> Recalcular
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="api-config text-center"
+                            style="margin-bottom: 15px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px;">
+                            <p class="small-text" style="margin-bottom: 8px;">API para estadísticas avanzadas del
+                                discurso</p>
+                            <div style="display:flex; gap: 8px; justify-content:center; align-items:center;">
+                                <input type="password" id="api-key-quantitative" class="form-input"
+                                    placeholder="Clave de API" style="width: 200px;">
+                                <button class="btn-secondary" id="run-quantitative-btn"><i class="fas fa-chart-bar"></i>
+                                    Correr Cuantitativo</button>
+                            </div>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label"><i class="fas fa-clock"></i> Duración:</span>
+                                <span class="stat-value" id="stat-duration">0:00</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label"><i class="fas fa-file-word"></i> Palabras:</span>
+                                <span class="stat-value" id="stat-words">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label"><i class="fas fa-users"></i> Hablantes:</span>
+                                <span class="stat-value" id="stat-speakers">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label"><i class="fas fa-tags"></i> Códigos:</span>
+                                <span class="stat-value" id="stat-codes">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-table-container">
+                            <h3>Palabras clave por hablante:</h3>
+                            <table class="stats-table">
+                                <thead>
+                                    <tr>
+                                        <th>Hablante</th>
+                                        <th>Palabras clave</th>
+                                        <th>Frecuencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stats-speaker-keywords">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Memos y análisis</h2>
+                        <button class="btn-action" id="btn-new-memo"
+                            title="Crear un nuevo memo analítico vinculado a la transcripción actual">
+                            <i class="fas fa-plus-circle"></i> Nuevo Memo
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="memo-list" id="memo-list-container">
+                            <div class="memo-card">
+                                <div class="memo-header">
+                                    <span>12/05/2025 14:30 | Vinculado a 0:45</span>
+                                    <span>Analítico</span>
+                                </div>
+                                <div class="memo-title">Contexto de la entrevista</div>
+                                <div class="memo-content">
+                                    El participante muestra una actitud positiva hacia la herramienta. Destacar
+                                    especialmente su mención del flujo de trabajo simplificado.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Diccionario de códigos</h2>
+                        <button class="btn-action" id="btn-new-code"
+                            title="Crear un nuevo código para clasificar fragmentos de transcripción">
+                            <i class="fas fa-plus-circle"></i> Nuevo Código
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="code-list" id="code-list-container">
+                            <div class="code-item">
+                                <div class="code-main">
+                                    <span class="code-color" style="background-color: #3b82f6;"></span>
+                                    <span class="code-name">Experiencia usuario</span>
+                                </div>
+                                <div class="code-actions">
+                                    <button><i class="fas fa-pencil-alt"></i></button>
+                                    <button><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="section-header">
+                        <h2>Integración Zotero</h2>
+                        <button class="btn-action" id="btn-configure-zotero">
+                            <i class="fas fa-plug"></i> Configurar
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="zotero-config">
+                            <div class="form-group">
+                                <label>API Key Zotero:</label>
+                                <input type="text" class="form-input" placeholder="Ingresa tu API key">
+                                <p class="form-help">
+                                    Obtén una API key desde
+                                    <a href="https://www.zotero.org/settings/keys"
+                                        target="_blank">www.zotero.org/settings/keys</a>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <label>ID de Usuario:</label>
+                                <input type="text" class="form-input" placeholder="Ej. 1234567">
+                            </div>
+                            <button class="btn-primary w-full">Guardar</button>
+                        </div>
+
+                        <h3 class="section-subtitle">Referencias Vinculadas:</h3>
+                        <div class="zotero-items">
+                            <div class="zotero-item">
+                                <i class="fas fa-book"></i>
+                                <div class="zotero-content">
+                                    <div class="zotero-title">García, A. (2023). Análisis cualitativo de entrevistas.
+                                    </div>
+                                    <div class="zotero-meta">Journal of Qualitative Research, 45(2), 123-145</div>
+                                </div>
+                                <div class="zotero-badge">
+                                    <i class="fas fa-link"></i> Vinculado
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-right mt-2">
+                            <button class="btn-action">
+                                <i class="fas fa-plus-circle"></i> Añadir referencia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shortcuts-bar">
+            <button class="shortcut-btn" title="Reproducir/Pausar (Espacio)" id="shortcut-play">
+                <i class="fas fa-play-circle"></i>
+                <span class="shortcut-label">Espacio</span>
+            </button>
+            <div class="shortcut-divider"></div>
+            <button class="shortcut-btn" title="Nuevo Memo (Ctrl+M)" id="shortcut-memo">
+                <i class="fas fa-sticky-note"></i>
+                <span class="shortcut-label">Ctrl+M</span>
+            </button>
+            <button class="shortcut-btn" title="Nuevo Código (Ctrl+D)" id="shortcut-code">
+                <i class="fas fa-tag"></i>
+                <span class="shortcut-label">Ctrl+D</span>
+            </button>
+            <div class="shortcut-divider"></div>
+            <button class="shortcut-btn" title="Buscar (Ctrl+F)" id="shortcut-search-footer">
+                <i class="fas fa-search"></i>
+                <span class="shortcut-label">Ctrl+F</span>
+            </button>
+            <button class="shortcut-btn" title="Reemplazar (Ctrl+R)" id="shortcut-replace-footer">
+                <i class="fas fa-exchange-alt"></i>
+                <span class="shortcut-label">Ctrl+R</span>
+            </button>
+            <div class="shortcut-divider"></div>
+            <button class="shortcut-btn" title="Ver atajos (Ctrl+K)" id="shortcut-keyboard">
+                <i class="fas fa-keyboard"></i>
+                <span class="shortcut-label">Ctrl+K</span>
+            </button>
+        </div>
+
+        <div class="modal" id="new-memo-modal">
+            <div class="modal-content">
+                <span class="modal-close" data-modal-id="new-memo-modal">×</span>
+                <h3 class="modal-title">Crear Nuevo Memo</h3>
+                <form id="new-memo-form">
+                    <div class="form-group">
+                        <label for="memo-title-input">Título (opcional):</label>
+                        <input type="text" class="form-input" id="memo-title-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="memo-type-select">Tipo de Memo:</label>
+                        <select class="form-select" id="memo-type-select">
+                            <option value="metodologico">Metodológico</option>
+                            <option value="analitico" selected>Analítico</option>
+                            <option value="teorico">Teórico</option>
+                            <option value="personal">Personal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memo-content-textarea">Contenido:</label>
+                        <textarea class="form-textarea" id="memo-content-textarea" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-modal-id="new-memo-modal">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar Memo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="new-code-modal">
+            <div class="modal-content">
+                <span class="modal-close" data-modal-id="new-code-modal">×</span>
+                <h3 class="modal-title">Crear Nuevo Código</h3>
+                <form id="new-code-form">
+                    <div class="form-group">
+                        <label for="code-name-input">Nombre del Código:</label>
+                        <input type="text" class="form-input" id="code-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="code-color-input">Color:</label>
+                        <input type="color" id="code-color-input" value="#3b82f6" class="form-color">
+                    </div>
+                    <div class="form-group">
+                        <label for="code-definition-textarea">Definición:</label>
+                        <textarea class="form-textarea" id="code-definition-textarea"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" data-modal-id="new-code-modal">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar Código</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="shortcuts-modal">
+            <div class="modal-content">
+                <span class="modal-close" data-modal-id="shortcuts-modal">×</span>
+                <h3 class="modal-title"><i class="fas fa-keyboard"></i> Atajos de Teclado</h3>
+                <div class="shortcuts-section">
+                    <h4>Reproductor</h4>
+                    <div class="shortcut-item"><span>Reproducir/Pausar</span><span class="shortcut-key">Espacio</span>
+                    </div>
+                    <div class="shortcut-item"><span>Avanzar 5s</span><span class="shortcut-key">→</span></div>
+                    <div class="shortcut-item"><span>Retroceder 5s</span><span class="shortcut-key">←</span></div>
+                </div>
+                <div class="shortcuts-section">
+                    <h4>Transcripción</h4>
+                    <div class="shortcut-item"><span>Iniciar transcripción</span><span
+                            class="shortcut-key">Ctrl+I</span></div>
+                    <div class="shortcut-item"><span>Mostrar/Ocultar no verbales</span><span
+                            class="shortcut-key">Ctrl+H</span></div>
+                    <div class="shortcut-item"><span>Nueva Transcripción</span><span class="shortcut-key">Ctrl+N</span>
+                    </div>
+                    <div class="shortcut-item"><span>Grabar Transcripción</span><span class="shortcut-key">Ctrl+S</span>
+                    </div>
+                </div>
+                <div class="shortcuts-section">
+                    <h4>Memos y Códigos</h4>
+                    <div class="shortcut-item"><span>Nuevo Memo</span><span class="shortcut-key">Ctrl+M</span></div>
+                    <div class="shortcut-item"><span>Nuevo Código</span><span class="shortcut-key">Ctrl+D</span></div>
+                </div>
+                <button class="btn-primary w-full mt-2" id="close-shortcuts-modal-btn">Cerrar</button>
+            </div>
+        </div>
+
+        <div class="modal" id="save-transcription-modal">
+            <div class="modal-content">
+                <span class="modal-close" data-modal-id="save-transcription-modal">×</span>
+                <h3 class="modal-title">Grabar Transcripción</h3>
+                <form id="save-transcription-form">
+                    <div class="form-group">
+                        <label for="save-transcription-name">Nombre de la Transcripción:</label>
+                        <input type="text" class="form-input" id="save-transcription-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="save-transcription-project">Proyecto:</label>
+                        <select class="form-select" id="save-transcription-project">
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel"
+                            data-modal-id="save-transcription-modal">Cancelar</button>
+                        <button type="submit" class="btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="help-modal">
+            <div class="modal-content">
+                <span class="modal-close">×</span>
+                <h3 class="modal-title"><i class="fas fa-question-circle"></i> Guía Básica de AudioScript</h3>
+                <div style="font-size: 13px; line-height: 1.6;">
+                    <p>1. <strong>Sube un archivo de Audio:</strong> Dirígete al panel izquierdo y carga un archivo M4A,
+                        MP3 o WAV.</p>
+                    <p>2. <strong>Ajusta los Diales:</strong> Gira los medidores circulares para elegir Whisper u
+                        opciones de procesado.</p>
+                    <p>3. <strong>Analiza los Textos:</strong> Procesa el audio e incluye tu clave de API si deseas una
+                        ponderación analítica detallada en la zona central inferior.</p>
+                    <p>4. <strong>Exporta los Resultados:</strong> Exporta hacia NVivo, MAXQDA o formatos comunes.</p>
+                </div>
+                <button class="btn-primary w-full mt-4 alert-settings-btn">Entendido</button>
+            </div>
+        </div>
+
+        <div class="modal" id="settings-modal">
+            <div class="modal-content">
+                <span class="modal-close">×</span>
+                <h3 class="modal-title"><i class="fas fa-cog"></i> Configuración del Sistema</h3>
+                <div class="form-group">
+                    <label>Ruta local de Almacenamiento Primario:</label>
+                    <input type="text" class="form-input" value="/Users/Documents/AudioScriptProjects">
+                </div>
+                <div class="form-group mt-2">
+                    <label>Prioridad de Procesamiento Local (Whisper.cpp):</label>
+                    <select class="form-input">
+                        <option>Rendimiento Óptimo (GPU Preferible)</option>
+                        <option>Bajo Consumo de Batería (CPU)</option>
+                    </select>
+                </div>
+                <button class="btn-primary w-full mt-4 alert-settings-btn">Guardar Configuraciones</button>
+            </div>
+        </div>
+
+        <audio id="audio-element"></audio>
+    </div>
+
+    <div class="red-footer">
+        <a href="https://ibero.mx/es-MX/home" target="_blank">UNIVERSIDAD IBEROAMERICANA 2026</a> |
+        <a href="https://ibero.mx/es-MX/departamento/ciencias-sociales-y-politicas" target="_blank">Ciencias Sociales y
+            Políticas</a>
+    </div>
+
+    <script src="script.js?v=5.0"></script>
+</body>
+
+</html>
