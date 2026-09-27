@@ -36,7 +36,7 @@
 <div class="wrap">
 
 <h1>Política de privacidad de Picona</h1>
-<p class="updated">Última actualización: 13 de junio de 2026</p>
+<p class="updated">Última actualización: 26 de septiembre de 2026</p>
 
 <p>Picona es una extensión de Chrome que funciona como asistente de investigación e inteligencia artificial en el navegador, con un sistema de memos para captura de notas con procedencia (fecha, etiquetas, fuente y cita). Esta política describe qué datos maneja Picona, dónde se almacenan y con quién se comparten.</p>
 
@@ -60,18 +60,28 @@
   <tr><td>Preferencias de interfaz</td><td>Recordar tus preferencias de uso</td></tr>
 </table>
 <p>Ninguno de estos datos se sincroniza a la nube de Google ni a ningún servidor de Picona. Si desinstalas la extensión, Chrome elimina estos datos según su comportamiento estándar.</p>
+<p>Adicionalmente, cada memo se guarda también como un archivo Markdown <strong>en tu propio equipo</strong>, en tu carpeta de Descargas, mediante la función estándar de descargas del navegador. Esto ocurre automáticamente cada vez que guardas un memo (puedes desactivarlo en Configuración) y sirve para que tus notas sobrevivan aunque se reinstale la extensión o se borre el almacenamiento local. Estos archivos no salen de tu equipo; Picona no los transmite a ningún servidor.</p>
 
 <h2>3. Datos que se envían a terceros (solo por tu acción explícita)</h2>
 <p>Picona envía datos a servidores externos <strong>únicamente</strong> en estos casos, y siempre como resultado directo de una acción tuya:</p>
 
 <h3>3.1 Proveedores de modelos de IA</h3>
 <p>Cuando usas el chat, resumen, traducción, investigación, explicación de selección, extracción de texto de imágenes, o las funciones opcionales marcadas con ✦, el contenido relevante se envía <strong>directamente desde tu navegador</strong> al proveedor de IA que configuraste, usando tu clave de API. Picona no actúa como intermediario y no retiene copia de estos envíos.</p>
+<p>Proveedores soportados: OpenAI, Anthropic, Google (Gemini), Mistral AI, Groq, OpenRouter, Ollama (ejecutándose localmente en tu equipo), o cualquier endpoint compatible que configures como "API personalizada".</p>
 
 <h3>3.2 Captura de pantalla (función «Extraer texto de imagen»)</h3>
 <p>Si usas esta función con un modelo de IA con capacidades de visión, la captura de la pestaña visible se envía al proveedor de IA configurado. La imagen no se almacena por Picona más allá de la conversación activa.</p>
 
 <h3>3.3 Sitios de terceros visitados</h3>
 <p>Picona puede leer el contenido de la página activa (texto visible) cuando usas funciones como «Resumir esta página», y puede leer el texto que selecciones. Esto ocurre solo cuando activas esas funciones, y el contenido leído se trata como cualquier otro mensaje: se envía al proveedor de IA que configuraste para generar la respuesta.</p>
+
+<h3>3.4 Lectura en voz alta («Leer» en la barra flotante)</h3>
+<p>Esta función usa la API de síntesis de voz integrada en tu navegador (<code>speechSynthesis</code>), no un proveedor de IA. El texto que seleccionas se entrega al motor de voz que tu sistema operativo o Chrome tengan disponible, según el idioma detectado. Según la voz que se use:</p>
+<ul>
+  <li>Las voces marcadas como locales por el sistema procesan el texto <strong>en tu propio equipo</strong>, sin enviarlo a ningún servidor.</li>
+  <li>Algunas voces (por ejemplo, ciertas voces "de red" o de Google incluidas en Chrome/ChromeOS) <strong>envían el texto a los servidores de ese proveedor</strong> para generar el audio, de forma equivalente a como lo haría cualquier otra aplicación que use esa misma voz del sistema. Picona no elige ese comportamiento: depende de qué voces tenga instaladas tu sistema operativo.</li>
+</ul>
+<p>Puedes ver y cambiar la voz activa desde el menú del lector que aparece al usar "Leer"; tu elección por idioma se recuerda localmente para la próxima vez.</p>
 
 <h2>4. Funciones opcionales que usan IA (marcadas con ✦)</h2>
 <p>Dentro del sistema de memos, dos funciones opcionales envían contenido de tus memos a tu proveedor de IA configurado, solo cuando las activas manualmente:</p>
@@ -85,12 +95,13 @@
 <table>
   <tr><th>Permiso</th><th>Uso</th></tr>
   <tr><td>storage</td><td>Guardar tu configuración, memos e historial localmente</td></tr>
-  <tr><td>activeTab / host permissions</td><td>Leer el contenido o la selección de la pestaña activa cuando usas funciones de resumen, traducción, explicación o memos de página</td></tr>
+  <tr><td>activeTab / host permissions</td><td>Leer el contenido o la selección de la pestaña activa cuando usas funciones de resumen, traducción, explicación o memos de página; mostrar la barra flotante de selección; permitir que el navegador haga las solicitudes directas al proveedor de IA que configures, con tu propia API key</td></tr>
   <tr><td>scripting</td><td>Insertar el contenido visible de la página para resumir/traducir/investigar y mostrar la barra flotante de selección</td></tr>
   <tr><td>tabs</td><td>Listar pestañas abiertas para la función «Investigar varias pestañas»</td></tr>
   <tr><td>sidePanel</td><td>Mostrar la interfaz de Picona como panel lateral</td></tr>
   <tr><td>contextMenus</td><td>Mostrar las opciones de Picona en el menú de clic derecho</td></tr>
   <tr><td>clipboardWrite</td><td>Copiar memos como HTML enriquecido (para pegar en OneNote, por ejemplo)</td></tr>
+  <tr><td>downloads</td><td>Guardar en tu carpeta de Descargas los memos (como archivos Markdown, automáticamente, en tu bóveda de Obsidian), los respaldos, los diálogos capturados y las demás exportaciones; y abrir esa carpeta cuando pulsas el ícono 📁 junto a un memo</td></tr>
 </table>
 
 <h2>6. Exportación e importación de datos</h2>
